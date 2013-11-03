@@ -24,7 +24,9 @@ end
 
 ruby_block "set public key to node" do
   block do
-    node['rsnapshot']['server']['ssh_key'] = File.read("#{root_home}/.ssh/id_rsa.pub").strip
+    unless Chef::Config[:solo]
+      node['rsnapshot']['server']['ssh_key'] = File.read("#{root_home}/.ssh/id_rsa.pub").strip
+    end
   end
 end
 
