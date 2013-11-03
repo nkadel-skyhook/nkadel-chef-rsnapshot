@@ -31,19 +31,9 @@ template "/etc/sudoers.d/rsnapshot" do
   mode "0440"
 end
 
-puts "Searching for role #{node['rsnapshot']['server_role']}"
-search(:node, "role:#{node['rsnapshot']['server_role']}") do |server|
-  p server
-end
-
-puts "Searching for rsnapshot_server_ssh_key:*"
-search(:node, "rsnapshot_server_ssh_key:*") do |server|
-  p server
-end
-
 ssh_keys = []
-search(:node, "roles:#{node['rsnapshot']['server_role']} AND rsnapshot_server_ssh_key:* NOT name:#{node.name}") do |server|
-  prefix = "from=\"#{server['ipaddress']}\",command=\"/home/#{node['rsnapshot']['client']['username']}/.ssh/validate-command.sh\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty"
+search(:node, "rsnapshot_server_ssh_key:* NOT name:#{node.name}") do |server|
+  prefix = "command=\"/home/#{node['rsnapshot']['client']['username']}/.ssh/validate-command.sh\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty"
   ssh_keys << "#{prefix} #{server['rsnapshot']['server']['ssh_key']}"
 end
 
