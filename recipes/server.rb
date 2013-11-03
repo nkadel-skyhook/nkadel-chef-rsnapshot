@@ -1,6 +1,7 @@
 include_recipe "cron"
 
 package "rsnapshot"
+require 'shellwords'
 
 # create the private key if necessary
 root_home = Etc.getpwnam("root").dir
