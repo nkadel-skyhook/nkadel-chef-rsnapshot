@@ -32,7 +32,7 @@ template "/etc/sudoers.d/rsnapshot" do
 end
 
 puts "Searching for role #{node['rsnapshot']['server_role']}"
-search(:node, "roles:#{node['rsnapshot']['server_role']}") do |server|
+search(:node, "role:#{node['rsnapshot']['server_role']}") do |server|
   p server
 end
 
