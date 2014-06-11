@@ -1,3 +1,4 @@
+name             "rsnapshot"
 maintainer       "Finn GmbH"
 maintainer_email "info@finn.de"
 license          "MIT"
