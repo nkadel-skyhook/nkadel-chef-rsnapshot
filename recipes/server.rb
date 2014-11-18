@@ -3,30 +3,39 @@ include_recipe "cron"
 package "rsnapshot"
 require 'shellwords'
 
-# create the private key if necessary
-root_home = Etc.getpwnam("root").dir
-directory "#{root_home}/.ssh" do
+# Set up directory for SSH keys
+if node['rsnapshot']['server']['keydir'].empty?
+  rsnapshot_keydir = Etc.getpwnam("root").dir + "/.ssh"
+else
+  rsnapshot_keydir = node['rsnapshot']['server']['keydir']
+end                     
+
+# create the key directory as needed
+directory "#{rsnapshot_keydir}" do
   owner "root"
   group "root"
   mode "0700"
 end
 
-execute "create ssh keypair for root" do
-  cwd root_home
+keyfile = node['rsnapshot']['server']['keydir'] + node['rsnapshot']['server'['keyname']
+
+# create the private key if necessary
+execute "create ssh keypair for rsnapshot" do
+  cwd rsnapshot_keydir
   user "root"
   command <<-KEYGEN.gsub(/^ +/, '')
-    ssh-keygen -t dsa -b 2048 -f #{root_home}/.ssh/id_dsa -N '' \
+    ssh-keygen -t dsa -b 2048 -f #{keyfile} -N '' \
     -C 'root@#{node['fqdn']}-#{Time.now.strftime('%FT%T%z')}'
-    chmod 0600 #{root_home}/.ssh/id_dsa
-    chmod 0644 #{root_home}/.ssh/id_dsa.pub
+    chmod 0600 #{keyfile}
+    chmod 0644 #{keyfile}.pub
   KEYGEN
-  creates "#{root_home}/.ssh/id_dsa"
+  creates "#{keyfile}"
 end
 
 ruby_block "set public key to node" do
   block do
     unless Chef::Config[:solo]
-      node['rsnapshot']['server']['ssh_key'] = File.read("#{root_home}/.ssh/id_dsa.pub").strip
+      node['rsnapshot']['server']['ssh_key'] = File.read("#{keyfile}.pub").strip
     end
   end
 end
@@ -66,7 +75,7 @@ template node['rsnapshot']['server']['config_file'] do
   group "root"
   mode "0644"
   variables "backup_targets" => backup_targets,
-            "ssh_key_location" => "#{root_home}/.ssh/id_dsa"
+            "ssh_key_location" => "#{keyfile}"
 end
 
 template "/etc/cron.d/rsnapshot" do
