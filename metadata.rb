@@ -6,9 +6,11 @@ description      "rsnapshot"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.2"
 
-%w{ ubuntu debian centos fedora scientific amazon }.each do |os|
-  supports os
-end
+supports 'amazon'
+supports 'centos'
+supports 'ubuntu'
+supports 'redhat'
+supports 'scintific'
 
 depends "cron"
 depends "openssh"
