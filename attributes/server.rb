@@ -1,6 +1,9 @@
 default['rsnapshot']['server']['config_file'] = "/etc/rsnapshot.conf"
 
 default['rsnapshot']['server']['snapshot_root'] = "/backup"
+default['rsnapshot']['server']['keyname'] = 'rsnapshot_dsa'
+# Allow system to set default root_home
+default['rsnapshot']['server']['keydir'] = ''
 # The contents of the public key shipped to the clients
 # This is overwritten on each invocation of the server recipe!
 default['rsnapshot']['server']['ssh_key'] = nil
