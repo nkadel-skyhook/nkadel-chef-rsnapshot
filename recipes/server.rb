@@ -3,13 +3,6 @@ include_recipe "cron"
 package "rsnapshot"
 require 'shellwords'
 
-# Set up directory for SSH keys
-if node['rsnapshot']['server']['keydir'].empty?
-  rsnapshot_keydir = Etc.getpwnam("root").dir + "/.ssh"
-else
-  rsnapshot_keydir = node['rsnapshot']['server']['keydir']
-end                     
-
 # create the key directory as needed
 directory "#{rsnapshot_keydir}" do
   owner "root"
