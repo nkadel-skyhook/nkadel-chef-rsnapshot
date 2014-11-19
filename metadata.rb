@@ -10,7 +10,7 @@ supports 'amazon'
 supports 'centos'
 supports 'ubuntu'
 supports 'redhat'
-supports 'scintific'
+supports 'scientific'
 
 depends "cron"
 depends "openssh"
