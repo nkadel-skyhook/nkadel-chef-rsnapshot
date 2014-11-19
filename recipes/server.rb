@@ -24,11 +24,11 @@ execute "create ssh keypair for rsnapshot" do
   cwd rsnapshot_keydir
   user "root"
   command <<-KEYGEN.gsub(/^ +/, '')
-    ssh-keygen -t dsa -b 2048 -f #{keyfile} -N '' \
-    -C 'root@#{node['fqdn']}-#{Time.now.strftime('%FT%T%z')}'
-    chmod 0600 #{keyfile}
-    chmod 0644 #{keyfile}.pub
-  KEYGEN
+ssh-keygen -t dsa -b 2048 -f #{keyfile} -N '' \
+  -C 'root@#{node['fqdn']}-#{Time.now.strftime('%FT%T%z')}' && \
+  chmod 0600 #{keyfile} && \
+  chmod 0644 #{keyfile}.pub
+KEYGEN
   creates "#{keyfile}"
 end
 
