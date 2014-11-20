@@ -2,6 +2,8 @@
 
 * [**Nico Kadel-Garcia**](https://github.com/nkadel-skyhook):
   Change default key location to /etc/rsnapshot/keys/rsnapshot_dsa.
+  Fix mistaken '[' in recipes/server.rb.
+  Replace white space in description clauses for Berkshelf compatibility.
 
 ## 0.1.0
 
