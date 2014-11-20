@@ -13,14 +13,14 @@ end
 keyfile = node['rsnapshot']['server']['keydir'] + node['rsnapshot']['server']['keyname']
 
 # create the private key if necessary
-execute "create ssh keypair for rsnapshot" do
+execute "create-ssh-keypair-for-rsnapshot" do
   cwd rsnapshot_keydir
   user "root"
   command "sh-keygen -t dsa -b 2048 -f #{keyfile} -N '' -C 'root@#{node['fqdn']}-#{Time.now.strftime('%FT%T%z')}' && chmod 0600 #{keyfile} && chmod 0644 #{keyfile}.pub"
   creates "#{keyfile}"
 end
 
-ruby_block "set public key to node" do
+ruby_block "set-public-key-to-node" do
   block do
     unless Chef::Config[:solo]
       node['rsnapshot']['server']['ssh_key'] = File.read("#{keyfile}.pub").strip
