@@ -10,7 +10,7 @@ directory "#{rsnapshot_keydir}" do
   mode "0700"
 end
 
-keyfile = node['rsnapshot']['server']['keydir'] + node['rsnapshot']['server'['keyname']
+keyfile = node['rsnapshot']['server']['keydir'] + node['rsnapshot']['server']['keyname']
 
 # create the private key if necessary
 execute "create ssh keypair for rsnapshot" do
