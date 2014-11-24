@@ -1,3 +1,10 @@
+## 0.1.2
+* [**Nico Kadel-Garcia**](https://github.com/nkadel-skyhook):
+  Added '--sender' test to validate-command.sh, ensure only rsync read accesss.
+  Use 'keydir' more consistently in rsnapshot::server.
+  Use 'node.set' for Chef 11 compatibility in rsnapshot::Server.
+  Stop trying to set DSA key length.  
+
 ## 0.1.1
 
 * [**Nico Kadel-Garcia**](https://github.com/nkadel-skyhook):
