@@ -4,6 +4,8 @@
   Use 'keydir' more consistently in rsnapshot::server.
   Use 'node.set' for Chef 11 compatibility in rsnapshot::Server.
   Stop trying to set DSA key length.  
+  Expand README.md and add LICENSE file.
+
 
 ## 0.1.1
 
